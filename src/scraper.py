@@ -11,7 +11,7 @@ from telethon.tl.types import MessageMediaPhoto
 
 # ─── Load .env from project root ──────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent.parent
-load_dotenv(dotenv_path=BASE_DIR / ".env")
+load_dotenv(dotenv_path=BASE_DIR / ".env", override=True)
 
 # ─── Validate credentials ─────────────────────────────────────────────────────
 _api_id_raw = os.getenv("TELEGRAM_API_ID")
@@ -70,6 +70,10 @@ logging.basicConfig(
         logging.StreamHandler(),
     ],
 )
+
+for handler in logging.root.handlers:
+    if isinstance(handler, logging.FileHandler):
+        handler.stream = open(handler.baseFilename, "a", encoding="utf-8")
 
 
 logging.getLogger("telethon").setLevel(logging.WARNING)
@@ -193,17 +197,17 @@ async def scrape_channel(client: TelegramClient, channel_username: str) -> list[
 # ─── Summary ──────────────────────────────────────────────────────────────────
 
 def print_summary(results: dict[str, int]) -> None:
-    logger.info("")
-    logger.info("════════════════════════════════════")
-    logger.info("         SCRAPING SUMMARY           ")
-    logger.info("════════════════════════════════════")
     total = 0
+    logger.info("")
+    logger.info("=" * 44)
+    logger.info("              SCRAPING SUMMARY")
+    logger.info("=" * 44)
     for channel, count in results.items():
         logger.info(f"  @{channel:<25} {count:>5} messages")
         total += count
-    logger.info("────────────────────────────────────")
+    logger.info("-" * 44)
     logger.info(f"  {'TOTAL':<25} {total:>5} messages")
-    logger.info("════════════════════════════════════")
+    logger.info("=" * 44)
 
 
 # ─── Entry point ──────────────────────────────────────────────────────────────
