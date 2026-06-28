@@ -1,0 +1,32 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+build/
+
+# Data (large files, raw data)
+data/raw/
+data/processed/
+*.json
+*.csv
+
+# Logs
+logs/
+
+# dbt
+medical_warehouse/target/
+medical_warehouse/dbt_packages/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
