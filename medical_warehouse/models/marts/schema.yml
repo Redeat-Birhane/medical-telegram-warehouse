@@ -19,7 +19,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ["Medical", "Cosmetics", "Pharmaceutical", "Unknown"]
+              arguments:
+                values: ["Medical", "Cosmetics", "Pharmaceutical", "Unknown"]
 
   - name: dim_dates
     description: "Date dimension spanning the full range of message dates"
