@@ -1,6 +1,34 @@
 version: 2
 
 models:
+  - name: fct_image_detections
+    description: "Image-level fact table with YOLO object detection results, joined to messages"
+    columns:
+      - name: message_id
+        description: "FK to fct_messages — natural key from Telegram"
+        tests:
+          - not_null
+      - name: channel_key
+        description: "FK to dim_channels"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_channels')
+              field: channel_key
+      - name: date_key
+        description: "FK to dim_dates"
+        tests:
+          - not_null
+          - relationships:
+              to: ref('dim_dates')
+              field: date_key
+      - name: image_category
+        description: "Classification: promotional / product_display / lifestyle / other"
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["promotional", "product_display", "lifestyle", "other"]
   - name: dim_channels
     description: "Channel dimension — one row per Telegram channel"
     columns:
@@ -19,7 +47,8 @@ models:
         tests:
           - not_null
           - accepted_values:
-              values: ["Medical", "Cosmetics", "Pharmaceutical", "Unknown"]
+              arguments:
+                values: ["Medical", "Cosmetics", "Pharmaceutical", "Unknown"]
 
   - name: dim_dates
     description: "Date dimension spanning the full range of message dates"
