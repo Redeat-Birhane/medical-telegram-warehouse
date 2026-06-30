@@ -28,3 +28,17 @@ sources:
             description: "Number of times message was forwarded"
           - name: scraped_at
             description: "Timestamp when this record was scraped"
+            
+      - name: yolo_detections
+        description: "YOLOv8 object detection results for downloaded channel images"
+        columns:
+          - name: message_id
+            description: "Telegram message ID the image belongs to"
+          - name: channel_name
+            description: "Telegram channel the image was scraped from"
+          - name: detected_objects
+            description: "Comma-separated list of detected object classes"
+          - name: image_category
+            description: "Classification: promotional / product_display / lifestyle / other"
+          - name: avg_confidence
+            description: "Average confidence score across detected objects"
